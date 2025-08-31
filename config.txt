@@ -1,0 +1,29 @@
+# ROKAnswerBot Configuration File
+# Edit these settings to customize your bot
+
+# ChatGPT Prompt Settings
+PREFIX=ONLY ANSWER WITH THE ANSWER, DONT GIVE ME ANYMORE INFORMATION, ONLY DO THE BARE MINIMUM(plus the full answer).Search online for the answer, remember this question is from the game Rise Of Kingdoms: 
+SUFFIX=
+
+# Bot Behavior Settings
+AUTO_SEND=true
+AUTO_ENTER_ANSWER=false
+RESPONSE_TIMEOUT=60
+CLIPBOARD_CHECK_INTERVAL=1
+
+# Popup Settings
+POPUP_TIMEOUT=15
+POPUP_WIDTH=300
+POPUP_HEIGHT=200
+SHOW_RESPONSE_TIME=true
+
+# Browser Settings
+CHATGPT_URL=https://chatgpt.com
+BROWSER_TIMEOUT=300
+
+# Discord Settings
+DISCORD_INVITE=https://discord.com/invite/jCgTXpWmTK
+SHOW_DISCORD_PROMPT=true
+
+# File Settings
+COOKIES_FILE=chatgpt_cookies.pkl
