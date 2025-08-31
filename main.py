@@ -1,5 +1,3 @@
-##EVERYTHING HERE WAS CREATED WITH CURSOR AI##
-
 import time
 import pickle
 import os
@@ -7,6 +5,7 @@ import threading
 import pyperclip
 import pyautogui
 import tkinter as tk
+import webbrowser
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,9 +14,82 @@ from selenium.common.exceptions import NoSuchElementException
 import undetected_chromedriver as uc
 
 # --- CONFIG ---
-AUTO_SEND = True
-COOKIES_FILE = "chatgpt_cookies.pkl"
-CHATGPT_URL = "https://chatgpt.com"
+def load_config():
+    """Load configuration from config.txt or create default if not exists"""
+    config = {
+        'PREFIX': 'ONLY ANSWER WITH THE ANSWER, DONT GIVE ME ANYMORE INFORMATION, ONLY DO THE BARE MINIMUM(plus the full answer).Search online for the answer, remember this question is from the game Rise Of Kingdoms: ',
+        'SUFFIX': '',
+        'AUTO_SEND': True,
+        'AUTO_ENTER_ANSWER': False,
+        'RESPONSE_TIMEOUT': 60,
+        'CLIPBOARD_CHECK_INTERVAL': 1,
+        'POPUP_TIMEOUT': 15,
+        'POPUP_WIDTH': 300,
+        'POPUP_HEIGHT': 200,
+        'SHOW_RESPONSE_TIME': True,
+        'CHATGPT_URL': 'https://chatgpt.com',
+        'BROWSER_TIMEOUT': 300,
+        'DISCORD_INVITE': 'https://discord.com/invite/jCgTXpWmTK',
+        'SHOW_DISCORD_PROMPT': True,
+        'COOKIES_FILE': 'chatgpt_cookies.pkl'
+    }
+    
+    # Try to load existing config
+    if os.path.exists('config.txt'):
+        try:
+            with open('config.txt', 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, value = line.split('=', 1)
+                        key = key.strip()
+                        value = value.strip()
+                        
+                        # Convert string values to appropriate types
+                        if key in ['AUTO_SEND', 'AUTO_ENTER_ANSWER', 'SHOW_RESPONSE_TIME', 'SHOW_DISCORD_PROMPT']:
+                            config[key] = value.lower() == 'true'
+                        elif key in ['RESPONSE_TIMEOUT', 'CLIPBOARD_CHECK_INTERVAL', 'POPUP_TIMEOUT', 'POPUP_WIDTH', 'POPUP_HEIGHT', 'BROWSER_TIMEOUT']:
+                            config[key] = int(value)
+                        else:
+                            config[key] = value
+            print("Configuration loaded from config.txt")
+        except Exception as e:
+            print(f"Error loading config: {e}, using defaults")
+    else:
+        # Create default config file
+        try:
+            with open('config.txt', 'w', encoding='utf-8') as f:
+                f.write("# ROKAnswerBot Configuration File\n")
+                f.write("# Edit these settings to customize your bot\n\n")
+                f.write("# ChatGPT Prompt Settings\n")
+                f.write(f"PREFIX={config['PREFIX']}\n")
+                f.write(f"SUFFIX={config['SUFFIX']}\n\n")
+                f.write("# Bot Behavior Settings\n")
+                f.write(f"AUTO_SEND={str(config['AUTO_SEND']).lower()}\n")
+                f.write(f"AUTO_ENTER_ANSWER={str(config['AUTO_ENTER_ANSWER']).lower()}\n")
+                f.write(f"RESPONSE_TIMEOUT={config['RESPONSE_TIMEOUT']}\n")
+                f.write(f"CLIPBOARD_CHECK_INTERVAL={config['CLIPBOARD_CHECK_INTERVAL']}\n\n")
+                f.write("# Popup Settings\n")
+                f.write(f"POPUP_TIMEOUT={config['POPUP_TIMEOUT']}\n")
+                f.write(f"POPUP_WIDTH={config['POPUP_WIDTH']}\n")
+                f.write(f"POPUP_HEIGHT={config['POPUP_HEIGHT']}\n")
+                f.write(f"SHOW_RESPONSE_TIME={str(config['SHOW_RESPONSE_TIME']).lower()}\n\n")
+                f.write("# Browser Settings\n")
+                f.write(f"CHATGPT_URL={config['CHATGPT_URL']}\n")
+                f.write(f"BROWSER_TIMEOUT={config['BROWSER_TIMEOUT']}\n\n")
+                f.write("# Discord Settings\n")
+                f.write(f"DISCORD_INVITE={config['DISCORD_INVITE']}\n")
+                f.write(f"SHOW_DISCORD_PROMPT={str(config['SHOW_DISCORD_PROMPT']).lower()}\n\n")
+                f.write("# File Settings\n")
+                f.write(f"COOKIES_FILE={config['COOKIES_FILE']}\n")
+            print("Created default config.txt file")
+        except Exception as e:
+            print(f"Error creating config file: {e}")
+    
+    return config
+
+# Load configuration
+CONFIG = load_config()
 
 # --- GUI POPUP ---
 class ResponsePopup:
@@ -34,7 +106,7 @@ class ResponsePopup:
             self.current_popup = tk.Toplevel()
             popup = self.current_popup
             popup.title(f"{service_name} Response")
-            popup.geometry("300x200")
+            popup.geometry(f"{CONFIG['POPUP_WIDTH']}x{CONFIG['POPUP_HEIGHT']}")
             popup.configure(bg='#2b2b2b')
             popup.attributes('-topmost', True)
             popup.attributes('-alpha', 0.7)
@@ -51,7 +123,7 @@ class ResponsePopup:
 
             # Create title with response time if provided
             title_text = f"{service_name} Response"
-            if response_time:
+            if response_time and CONFIG['SHOW_RESPONSE_TIME']:
                 title_text += f" ({response_time})"
             
             title_label = tk.Label(title_frame,
@@ -102,7 +174,7 @@ class ResponsePopup:
                 window_y = screen_height - 210
 
             popup.geometry(f"300x200+{window_x}+{window_y}")
-            popup.after(15000, self.close_popup)
+            popup.after(CONFIG['POPUP_TIMEOUT'] * 1000, self.close_popup)
             
             # Handle window close event
             popup.protocol("WM_DELETE_WINDOW", self.close_popup)
@@ -130,8 +202,15 @@ class ChatGPTBot:
 
     def setup_browser(self):
         print("Launching browser...")
+        
+        # Open Discord invite in default browser
+        if CONFIG['SHOW_DISCORD_PROMPT']:
+            print("Opening Discord community...")
+            webbrowser.open(CONFIG['DISCORD_INVITE'])
+            print("Discord invite opened! Join our community for support and updates.")
+        
         self.driver = uc.Chrome()
-        self.driver.get(CHATGPT_URL)
+        self.driver.get(CONFIG['CHATGPT_URL'])
 
         # Try cookies
         if self.load_cookies():
@@ -148,14 +227,14 @@ class ChatGPTBot:
 
     def save_cookies(self):
         cookies = self.driver.get_cookies()
-        with open(COOKIES_FILE, "wb") as f:
+        with open(CONFIG['COOKIES_FILE'], "wb") as f:
             pickle.dump(cookies, f)
         print("Cookies saved.")
 
     def load_cookies(self):
-        if not os.path.exists(COOKIES_FILE):
+        if not os.path.exists(CONFIG['COOKIES_FILE']):
             return False
-        with open(COOKIES_FILE, "rb") as f:
+        with open(CONFIG['COOKIES_FILE'], "rb") as f:
             cookies = pickle.load(f)
         for cookie in cookies:
             try:
@@ -170,11 +249,12 @@ class ChatGPTBot:
         try:
             # Check if we're on the main ChatGPT page
             current_url = self.driver.current_url
-            if not current_url.startswith("https://chatgpt.com"):
+            base_url = CONFIG['CHATGPT_URL'].rstrip('/')
+            if not current_url.startswith(base_url):
                 return False
             
             # Allow for trailing slash variations
-            if current_url not in ["https://chatgpt.com", "https://chatgpt.com/"]:
+            if current_url not in [base_url, base_url + "/"]:
                 return False
             
             # Look for the "Log in" button - if it exists, user is not logged in
@@ -201,8 +281,10 @@ class ChatGPTBot:
             print(f"Error checking login status: {e}")
             return False
 
-    def wait_for_login(self, timeout=300):
+    def wait_for_login(self, timeout=None):
         """Wait for login by monitoring the disappearance of the 'Log in' button"""
+        if timeout is None:
+            timeout = CONFIG['BROWSER_TIMEOUT']
         print("Please log in to ChatGPT. The bot will detect when you're logged in.")
         
         start_time = time.time()
@@ -237,9 +319,9 @@ class ChatGPTBot:
 
     def paste_to_chat(self, text):
         try:
-            # 🔧 Define your custom prefix/suffix here (or make them class attributes)
-            custom_prefix = "ONLY ANSWER WITH THE ANSWER, DONT GIVE ME ANYMORE INFORMATION, ONLY DO THE BARE MINIMUM(plus the full answer).Search online for the answer, remember this question is from the game Rise Of Kingdoms: "
-            custom_suffix = ""
+            # Use config values for prefix and suffix
+            custom_prefix = CONFIG['PREFIX']
+            custom_suffix = CONFIG['SUFFIX']
 
             # Combine everything
             final_text = f"{custom_prefix}{text}{custom_suffix}"
@@ -252,7 +334,7 @@ class ChatGPTBot:
             self.driver.execute_script("arguments[0].innerHTML = '';", chat_input)
             self.driver.execute_script("arguments[0].textContent = arguments[1];", chat_input, final_text)
 
-            if AUTO_SEND:
+            if CONFIG['AUTO_SEND']:
                 chat_input.send_keys(Keys.RETURN)
                 print("Message sent!")
         except Exception as e:
@@ -275,8 +357,10 @@ class ChatGPTBot:
         
         return len(elements)
 
-    def wait_for_response_complete(self, initial_response_count, timeout=60):
+    def wait_for_response_complete(self, initial_response_count, timeout=None):
         """Wait until ChatGPT finishes typing before capturing the response"""
+        if timeout is None:
+            timeout = CONFIG['RESPONSE_TIMEOUT']
         end_time = time.time() + timeout
         last_text = ""
 
@@ -343,7 +427,7 @@ class ChatGPTBot:
                         print("=" * 50)
                         self.response_popup.show_response("ChatGPT", response, response_time_str)
 
-                time.sleep(1)
+                time.sleep(CONFIG['CLIPBOARD_CHECK_INTERVAL'])
             except Exception as e:
                 print(f"Clipboard monitor error: {e}")
                 time.sleep(2)
