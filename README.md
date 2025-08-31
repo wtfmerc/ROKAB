@@ -8,6 +8,9 @@ A Rise of Kingdoms answering bot that uses Selenium and ShareX OCR for automated
 
 ### 🔹 Need help? Add me on Discord: **wtfmerc**
 
+Or join the server! [Discord Invite](https://discord.com/invite/jCgTXpWmTK)
+
+
 ROKAnswerBot Tutorial - Complete Setup Guide
 ============================================
 
