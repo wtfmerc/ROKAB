@@ -6,11 +6,6 @@ A Rise of Kingdoms answering bot that uses Selenium and ShareX OCR for automated
 
 **For executable users:** Download from [Releases](https://github.com/wtfmerc/ROKAB/releases) on the right side of this page. Then follow the steps below.
 
-### 🔹 Need help? Add me on Discord: **wtfmerc**
-
-### 🔹 Or join the server! [Discord Invite](https://discord.com/invite/jCgTXpWmTK)
-
-
 ROKAnswerBot Tutorial - Complete Setup Guide
 ============================================
 
@@ -113,13 +108,11 @@ If popups don't appear:
 SUPPORT:
 ========
 
-For issues or questions:
-- Check the console output for error messages
-- Ensure all prerequisites are met
-- Verify ShareX and ChatGPT are working independently
+## 🔹For issues or questions:
+### 🔹Check the console output for error messages
+### 🔹Ensure all prerequisites are met
+### 🔹Verify ShareX and ChatGPT are working independently
 
-ENJOY YOUR AUTOMATED RISE OF KINGDOMS ASSISTANT!
-===============================================
+### 🔹 Need help? Add me on Discord: **wtfmerc**
 
-The bot will help you quickly get answers to Rise of Kingdoms questions
-by automatically sending them to ChatGPT and displaying the responses.
+### 🔹 Or join the server! [Discord Invite](https://discord.com/invite/jCgTXpWmTK)
