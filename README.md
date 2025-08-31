@@ -15,6 +15,7 @@ PREREQUISITES:
 - Windows PC
 - Internet connection
 - ChatGPT account
+- ShareX downloaded ( links below )
 
 STEP 1: DOWNLOAD AND INSTALL SHAREX
 ===================================
