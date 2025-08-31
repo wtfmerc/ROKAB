@@ -1,5 +1,3 @@
-## EVERYTHING HERE WAS MADE IN CURSOR AI ##
-
 import os
 import subprocess
 import sys
