@@ -105,14 +105,11 @@ If popups don't appear:
 - Verify clipboard monitoring is active
 - Look for any error messages in the console
 
-SUPPORT:
-========
+#SUPPORT:
 
-## 🔹For issues or questions:
+### 🔹For issues or questions:
 ### 🔹Check the console output for error messages
 ### 🔹Ensure all prerequisites are met
 ### 🔹Verify ShareX and ChatGPT are working independently
-
 ### 🔹 Need help? Add me on Discord: **wtfmerc**
-
 ### 🔹 Or join the server! [Discord Invite](https://discord.com/invite/jCgTXpWmTK)
