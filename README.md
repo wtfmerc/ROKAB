@@ -1,7 +1,8 @@
 # ROKAB
 This is a Rise Of Kingdoms answering bot, it uses selenium and ShareX OCR. (THIS WAS CREATED IN 1 HOUR USING CURSOR AI)
-
 This will require you to have shareX OCR, it runs based off your clipboard. You will get an answer back in 5-7 secs, it should work on the timed test that take 15 secs. (may depend on your internet speed)
+
+!!!!!!!!!!!!!! IF YOU ARE TRYING TO JUST RUN AN EXE TO DOWNLOAD GOTO " RELEASES " ON THE RIGHT SIDE OF YOUR SCREEN !!!!!!!!!!!!!!
 
 (TUTORIAL IF YOU DONT KNOW HOW TO SETUP SHAREX OCR)
 
