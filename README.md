@@ -6,7 +6,7 @@ A Rise of Kingdoms answering bot that uses Selenium and ShareX OCR for automated
 
 **For executable users:** Download from [Releases](https://github.com/wtfmerc/ROKAB/releases) on the right side of this page. Then follow the steps below.
 
-If you have any questions add discord: wtfmerc
+### 🔹 Need help? Add me on Discord: **wtfmerc**
 
 ROKAnswerBot Tutorial - Complete Setup Guide
 ============================================
