@@ -104,13 +104,6 @@ If popups don't appear:
 - Verify clipboard monitoring is active
 - Look for any error messages in the console
 
-HOTKEYS SUMMARY:
-================
-
-ShareX OCR: Ctrl+Shift+O (or your custom hotkey)
-Bot Launch: Double-click ROKAnswerBot.exe
-Bot Close: Close the console window
-
 SUPPORT:
 ========
 
