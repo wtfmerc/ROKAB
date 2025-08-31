@@ -2,6 +2,23 @@
 
 A Rise of Kingdoms answering bot that uses Selenium and ShareX OCR for automated question answering.
 
+This bot is designed to be **unpatchable** in the traditional sense because it does **not interact with the game client at all**. Unlike typical game bots, it does not inject code, modify memory, or simulate in-game actions. Instead, it works entirely on the **user’s screen**:
+
+- It captures text from screenshots using ShareX OCR.
+- It sends the captured text to ChatGPT for processing.
+- It returns answers in a popup — completely outside the game environment.
+
+Because it operates only on visual data and standard browser/API interactions, updates to the game **cannot break the bot**. Additionally, the bot is highly **configurable** — by changing the "prefix" or context in the configuration, it can be adapted to work with **any application or game** that uses text-based questions, not just Rise of Kingdoms.  
+
+This approach ensures that:
+- You are never altering the game client.
+- The bot is resilient to updates and patches.
+- It remains fully cross-platform compatible with minimal maintenance.
+
+⚠️ **Legal Notice:**  
+For legal and ethical reasons, this project **will not accept suggestions or features that automatically click or submit answers in-game**. All interactions with the game must be manual.  
+However, I may create an **educational tutorial in the future** that explores image processing and automated answer detection in a controlled, non-game context. This would be purely for learning purposes and not intended for use in any live game environment.
+
 ## ⚡ Quick Start
 
 **For executable users:** Download from [Releases](https://github.com/wtfmerc/ROKAB/releases) on the right side of this page. Then follow the steps below.
@@ -108,3 +125,17 @@ If popups don't appear:
 
 ### 🔹 Need help? Add me on Discord: **wtfmerc**
 ### 🔹 Or join the server! [Discord Invite](https://discord.com/invite/jCgTXpWmTK)
+
+---
+
+## ⚖️ Legal Disclaimer
+
+ROKAB is intended for **personal and educational use only**. By using this tool:
+
+- You agree that all in-game actions must be manual; the bot does **not automatically click or submit answers**.  
+- The developers are **not responsible** for any account issues, bans, or losses incurred while using this software.  
+- This project should **not be interpreted as a cheat or bot** — it simply automates reading text and querying ChatGPT outside the game environment.  
+- Any future tutorials or educational content related to image processing or answer detection will be **strictly for learning purposes** and not intended for live game use.
+
+Use at your own risk.
+
